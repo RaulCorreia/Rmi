@@ -25,7 +25,7 @@ public class Alimento extends Produto {
 	}
 	
 	public String toString() {
-		String objeto = getCodigo() + ";" + getNome() + ";" + getTipo() + ";" + getPreco() + ";" + getKilo();
+		String objeto = getCodigo() + " - " + getNome() + ":\t" + getTipo() + "\t" + getPreco() + "\t " + getKilo() + " Kg";
 		return objeto;
 	}
 }

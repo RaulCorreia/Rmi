@@ -1,10 +1,12 @@
 package server;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 
-import modelo.Const;
+import modelo.Alimento;
+import modelo.Eletronico;
 import modelo.ListProduto;
+import modelo.Produto;
+import modelo.Roupa;
 import modelo.Usuario;
 
 public class ImplLoja implements Loja{
@@ -35,12 +37,6 @@ public class ImplLoja implements Loja{
 					
 					this.typeUserLogged = usuario.getRole();
 					
-					String logado = "";
-					if(this.typeUserLogged == Const.FUNCIONARIO)
-						logado = "Funcionario logado com sucesso!";
-					else
-						logado = "Cliente logado com sucesso!";
-					
 					return this.typeUserLogged;
 				} else {
 					return -1;
@@ -67,8 +63,9 @@ public class ImplLoja implements Loja{
 				    	"5- Pesquisar por codigo\n" +
 				    	"6- Alterar Produto\n" +
 				    	"7- Exibir Quantidade de produtos\n" +
-				    	"8- Comprar produto\n" +
-				    	"9- Sair\n" +
+				    	"8- Adicionar Produto ao Carrinho\n" +
+				    	"9- Exibir Carrinho\n" +
+				    	"10- Sair\n"+
 				    	">> ";
 	
 		return menu;
@@ -81,12 +78,13 @@ public class ImplLoja implements Loja{
 		
 		String menu = 	"Digite o numero do menu\n" +
 						"Opções:\n" +
-				    	"3- Listar Produtos\n" +
-				    	"4- Pesquisar por nome\n" +
-				    	"5- Pesquisar por codigo\n" +
-				    	"7- Exibir Quantidade de produtos\n" +
-				    	"8- Comprar produto\n" +
-				    	"9- Sair\n" +
+				    	"1- Listar Produtos\n" +
+				    	"2- Pesquisar por nome\n" +
+				    	"3- Pesquisar por codigo\n" +
+				    	"4- Exibir Quantidade de produtos\n" +
+				    	"5- Adicionar Produto ao Carrinho\n" +
+				    	"6- Exibir Carrinho\n" +
+				    	"7- Sair\n" +
 				    	">> ";
 	
 		return menu;
@@ -102,9 +100,111 @@ public class ImplLoja implements Loja{
 	@Override
 	public String apagarProd(String nome){
 		
-		return "Correto";
+		boolean result = this.lista.deleteFromList(nome);
+    	String mensagem = "";
+    	
+    	if(result) {
+    		mensagem = "Produto Deletado";
+    	} else {
+    		 mensagem = "Item não existe ou não esta mais disponivel";
+    	}
+    	
+    	return mensagem;
 	}
 
+	
+	@Override
+	public String listarProd(){
+		return this.lista.getList();
+	}
 
+	
+	@Override
+	public String buscarNome(String nome){
+		
+		String cabecalho = "Id  Nome\tTipo\t\tValor\tExtra\n";
+		Produto result = this.lista.getItem(nome);
+    	
+    	if(result != null)
+    		return cabecalho + result.toString();
+    	else
+    		return "Produto não encontrado";
+	}
+	
+	
+	@Override
+	public String buscarId(String id){
+		
+		String cabecalho = "Id  Nome\tTipo\t\tValor\tExtra\n";
+		Produto result = this.lista.getItemByCod(id);
+    	
+    	if(result != null)
+    		return cabecalho + result.toString();
+    	else
+    		return "Produto não encontrado";
+	}
 
+	
+	@Override
+	public String atualizar(String nomeAtual, String id, String nome, String preco, String tipo, String extra) {
+		
+		
+		if(!nomeAtual.isEmpty() && !id.isEmpty() && !nome.isEmpty() && !preco.isEmpty() && !tipo.isEmpty() && !extra.isEmpty()) {
+		
+			Produto result = this.lista.getItem(nomeAtual);
+			
+			
+			if(result != null) {
+				
+				result.setCodigo(id);
+				result.setNome(nome);
+				result.setPreco(preco);
+				result.setTipo(tipo);
+				
+				if(result.getTipo().equalsIgnoreCase("Alimento")) {
+					Alimento produto = (Alimento) result;
+					produto.setKilo(extra);
+				} else if(result.getTipo().equalsIgnoreCase("Eletronico")){
+					Eletronico produto = (Eletronico) result;
+					produto.setVoltagem(extra);
+				} else {
+					Roupa produto = (Roupa) result;
+					produto.setTamanho(extra);
+				}
+				
+	    		return "Produto Atualizado\n" + result.toString();
+			} else {
+	    		return "Produto não encontrado";
+			}
+		}
+		
+		
+		return "Todos as informações devem ser preenchidas...";
+	}
+	
+	
+	@Override
+	public String quantidade() {
+		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+	}
+	
+	@Override
+	public String addCarrinho(String nome) {
+		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+	}
+	
+	@Override
+	public String showCarrinho() {
+		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+	}
+	
+	@Override
+	public String removeCarrinho(String nome) {
+		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+	}
+	
+	@Override
+	public String finalizarCompra() {
+		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+	}
 }

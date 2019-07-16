@@ -25,7 +25,7 @@ public class Eletronico extends Produto{
 	}
 	
 	public String toString() {
-		String objeto = getCodigo() + ";" + getNome() + ";" + getTipo() + ";" + getPreco() + ";" + getVoltagem();
+		String objeto = getCodigo() + " - " + getNome() + ":\t" + getTipo() + "\t" + getPreco() + "\t " + getVoltagem() + " V";
 		return objeto;
 	}
 	

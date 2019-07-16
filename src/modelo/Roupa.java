@@ -25,7 +25,7 @@ public class Roupa extends Produto{
 	}
 	
 	public String toString() {
-		String objeto = getCodigo() + ";" + getNome() + ";" + getTipo() + ";" + getPreco() + ";" + getTamanho();
+		String objeto = getCodigo() + " - " + getNome() + ":\t" + getTipo() + "\t\t" + getPreco() + "\t Tamanho " + getTamanho();
 		return objeto;
 	}
 	

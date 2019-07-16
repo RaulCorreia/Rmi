@@ -52,13 +52,13 @@ public class ListProduto {
 	
 	public String getList() {
 		
-		String listString = "";
+		String listString = "Id  Nome\tTipo\t\tValor\tExtra\n";
 		
 		SortedSet<String> keys = new TreeSet<>(lista.keySet());
 		
 		for (Object key : keys) { 
 			Produto objeto = lista.get(key); 
-			listString += objeto.toString() + "!";
+			listString += objeto.toString() + "\n";
 		}
 		
 		return listString;
