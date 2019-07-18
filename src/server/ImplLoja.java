@@ -5,6 +5,7 @@ import java.util.Map;
 import modelo.Alimento;
 import modelo.Eletronico;
 import modelo.ListProduto;
+import modelo.Carrinho;
 import modelo.Produto;
 import modelo.Roupa;
 import modelo.Usuario;
@@ -13,12 +14,14 @@ public class ImplLoja implements Loja{
 	
 	private Map<String, Usuario> usuarios;
 	private ListProduto lista;
+	private Carrinho carrinho;
 	private int typeUserLogged;
 	
 	public ImplLoja(Map<String, Usuario> usuarios, ListProduto lista) {
 		
 		this.usuarios = usuarios;
 		this.lista = lista;
+		this.carrinho = new Carrinho();
 	}
 	
 	
@@ -94,7 +97,24 @@ public class ImplLoja implements Loja{
 	@Override
 	public String adicionarProduto(String id, String nome, String preco, String tipo, String extra){
 		
-		return "Correto";
+		if(!id.isEmpty() && !nome.isEmpty() && !preco.isEmpty() && !tipo.isEmpty() && !extra.isEmpty()) {
+			
+			Produto novo;
+			
+			if(tipo.equalsIgnoreCase("Alimento")) {
+				novo = new Alimento(id, nome, preco, extra);
+			} else if(tipo.equalsIgnoreCase("Eletronico")) {
+				novo = new Eletronico(id, nome, preco, extra);
+			} else {
+				novo = new Roupa(id, nome, preco, extra);
+			}
+			
+			this.lista.setItem(novo);
+			
+			return "Produto adicionado";
+		}
+		
+		return "Todos os itens devem ser preenchidos";
 	}
 	
 	@Override
@@ -167,9 +187,11 @@ public class ImplLoja implements Loja{
 				} else if(result.getTipo().equalsIgnoreCase("Eletronico")){
 					Eletronico produto = (Eletronico) result;
 					produto.setVoltagem(extra);
-				} else {
+				} else if(result.getTipo().equalsIgnoreCase("Roupa")) {
 					Roupa produto = (Roupa) result;
 					produto.setTamanho(extra);
+				} else {
+					return "Tipo não identificado";
 				}
 				
 	    		return "Produto Atualizado\n" + result.toString();
@@ -190,21 +212,40 @@ public class ImplLoja implements Loja{
 	
 	@Override
 	public String addCarrinho(String nome) {
-		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+		
+		Produto result = this.lista.getItem(nome);
+    	String retorno = "Produto inexistente na lista de itens";
+    	
+    	if(result != null) {
+    		retorno = this.carrinho.addItem(result);
+    		this.lista.delete(result.getNome());
+    	}
+		
+		
+		return retorno;
 	}
 	
 	@Override
 	public String showCarrinho() {
-		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+		return this.carrinho.getList();
 	}
 	
 	@Override
 	public String removeCarrinho(String nome) {
-		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+		
+		Produto removido = this.carrinho.removerItem(nome);
+		
+		if(removido != null) {
+			this.lista.setItem(removido);
+			
+			return "Item removido do carrinho";
+		}
+		
+		return "Item não encontrado no carrinho";
 	}
 	
 	@Override
 	public String finalizarCompra() {
-		return "Atualmente temos disponivel " + this.lista.size() + " produtos.";
+		return this.carrinho.finalizarCompra();
 	}
 }

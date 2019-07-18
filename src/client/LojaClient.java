@@ -71,11 +71,15 @@ public class LojaClient {
 					        		System.out.print("Digite o preço do produto:");
 					        		String preco = teclado.nextLine();
 					        		
-					        		System.out.print("Digite o tipo do produto: Alimento, Eletronico ou Roupa: ");
-					        		String tipo = teclado.nextLine();
+					        		
+					        		String tipo = "";
 					        		String extra = "";
 					        		
 					        		do {
+					        			
+					        			System.out.print("Digite o tipo do produto: Alimento, Eletronico ou Roupa: ");
+						        		tipo = teclado.nextLine();
+						        		extra = "";
 					        			
 						        		if(tipo.equalsIgnoreCase("Alimento")) {
 						        			
@@ -101,8 +105,9 @@ public class LojaClient {
 						        		
 					        		} while (true);
 					        		
-					        		
-					        		System.out.print(stubObjRemotoCliente.adicionarProduto(id, nome, preco, tipo, extra));
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.adicionarProduto(id, nome, preco, tipo, extra));
+					        		System.out.println("");
 					        		
 					        		
 					        	}
@@ -113,8 +118,9 @@ public class LojaClient {
 					        	case 2:{
 					        		System.out.print("Digite o nome do produto que deseja apagar:");
 					        		String nome = teclado.nextLine();
-					        		
+					        		System.out.println("");
 					        		System.out.println(">> "+stubObjRemotoCliente.apagarProd(nome));
+					        		System.out.println("");
 					        	}
 					        		break;
 					        		
@@ -125,6 +131,8 @@ public class LojaClient {
 					        		System.out.println("");
 					        	}
 					        		break;
+					        	
+					        	// Pesquisar por nome
 					        	case 4:{
 					        		System.out.println("Digite o nome do produto:");
 					        		String nome = teclado.nextLine();
@@ -133,6 +141,8 @@ public class LojaClient {
 					        		System.out.println("");					        		
 					        	}
 					        		break;
+					        		
+					        	// Pesquisar por codigo
 					        	case 5:{
 					        		System.out.println("Digite o id do produto:");
 					        		String nome = teclado.nextLine();
@@ -182,12 +192,16 @@ public class LojaClient {
 					        		
 					        	}
 					        		break;
+					        		
+					        	// Exibir quantidade
 					        	case 7: {
 					        		System.out.println("");
 					        		System.out.println(stubObjRemotoCliente.quantidade());
 					        		System.out.println("");
 					        	}
 					        		break;
+					        		
+					        	// Adicionar ao carrinho
 					        	case 8:{
 					        		System.out.println("Digite o nome do produto");
 					        		String nome = teclado.nextLine();
@@ -195,11 +209,12 @@ public class LojaClient {
 					        		System.out.println("");
 					        	}
 					        		break;
+					        		
+					        	// Exibir carrinho
 					        	case 9:{
 					        		System.out.println("");
 					        		System.out.println(stubObjRemotoCliente.showCarrinho());
-					        		System.out.println("");
-					        		System.out.println("Finalizar compra (S), continuar comprando (N) ou remover produto do carrinho (R)?");
+					        		//System.out.println("Finalizar compra (S), continuar comprando (N) ou remover produto do carrinho (R)?");
 					        		String end = teclado.nextLine();
 					        		
 					        		if(end.equalsIgnoreCase("S")) {
@@ -209,12 +224,14 @@ public class LojaClient {
 					        			String nome = teclado.nextLine();
 					        			System.out.println(stubObjRemotoCliente.removeCarrinho(nome));
 					        		}
-					        		
-					        		System.out.println("");
 					        	}
 					        		break;
+					        		
+					        	// Sair
 					        	case 10:{
 					        		exitMenu = true;
+					        		exit = true;
+					        		result = -5;
 					        	}
 					        		break;
 				        	}
@@ -235,7 +252,7 @@ public class LojaClient {
 		        	
 		        	
 		        	do {
-		        		String menu = stubObjRemotoCliente.menuFunc();
+		        		String menu = stubObjRemotoCliente.menuUser();
 			        	System.out.println(menu);
 			        	opcao = teclado.nextLine();
 			        	
@@ -244,25 +261,75 @@ public class LojaClient {
 				        	int digito = Integer.parseInt(opcao);
 				        	
 				        	switch(digito) {
-					        	case 0:
+				        	
+				        		// Listar
+					        	case 1:{
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.listarProd());
+					        		System.out.println("");
+					        	}
 					        		break;
-					        	case 1:
+					        		
+					        	// Pesquisar por nome
+					        	case 2:{
+					        		System.out.println("Digite o nome do produto:");
+					        		String nome = teclado.nextLine();
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.buscarNome(nome));
+					        		System.out.println("");		
+					        	}
 					        		break;
-					        	case 2:
+					        		
+					        	// Pesquisar por codigo
+					        	case 3:{
+					        		System.out.println("Digite o id do produto:");
+					        		String nome = teclado.nextLine();
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.buscarId(nome));
+					        		System.out.println("");
+					        	}
 					        		break;
-					        	case 3:
+					        		
+					        	// Exibir quantidade
+					        	case 4:{
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.quantidade());
+					        		System.out.println("");
+					        	}
 					        		break;
-					        	case 4:
+					        		
+					        	// Adicionar ao carrinho
+					        	case 5:{
+					        		System.out.println("Digite o nome do produto");
+					        		String nome = teclado.nextLine();
+					        		System.out.println(stubObjRemotoCliente.addCarrinho(nome));
+					        		System.out.println("");
+					        	}
 					        		break;
-					        	case 5:
+					        		
+					        	// Exibir carrinho
+					        	case 6:{
+					        		System.out.println("");
+					        		System.out.println(stubObjRemotoCliente.showCarrinho());
+					        		//System.out.println("Finalizar compra (S), continuar comprando (N) ou remover produto do carrinho (R)?");
+					        		String end = teclado.nextLine();
+					        		
+					        		if(end.equalsIgnoreCase("S")) {
+					        			System.out.println(stubObjRemotoCliente.finalizarCompra());
+					        		} else if(end.equalsIgnoreCase("R")) {
+					        			System.out.println("Digite o nome do produto:");
+					        			String nome = teclado.nextLine();
+					        			System.out.println(stubObjRemotoCliente.removeCarrinho(nome));
+					        		}
+					        	}
 					        		break;
-					        	case 6:
-					        		break;
-					        	case 7:
-					        		break;
-					        	case 8:
-					        		break;
-					        	case 9:
+					        		
+					        	// Sair
+					        	case 7: {
+					        		exitMenu = true;
+					        		exit = true;
+					        		result = -5;
+					        	}
 					        		break;
 				        	}
 			        	
@@ -270,7 +337,7 @@ public class LojaClient {
 				    		System.out.println("Opção Invalida...");
 				    	}
 			        	
-		        	}while(!opcao.equalsIgnoreCase("sair"));
+		        	}while(!exitMenu);
 		        	
 		        } else if (result == -1) {
 		        	
@@ -283,10 +350,12 @@ public class LojaClient {
 		        }
 	        
 		        
-		        System.out.println("Tentar outra vez?\nS ou N?");
-		        String opcao = teclado.nextLine();
-		        if(opcao.equalsIgnoreCase("n")) {
-		        	exit = true;
+		        if(result != -5) {
+			        System.out.println("Tentar outra vez?\nS ou N?");
+			        String opcao = teclado.nextLine();
+			        if(opcao.equalsIgnoreCase("n")) {
+			        	exit = true;
+			        }
 		        }
 	        
             }while(!exit);

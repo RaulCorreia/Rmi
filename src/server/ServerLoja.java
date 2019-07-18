@@ -42,7 +42,7 @@ public class ServerLoja {
 	        ListProduto lista = new ListProduto();
 	        
 	        // ID, Nome, Tipo, Preco
-	        Eletronico e1 = new Eletronico("1", "Tv", "1000,00", "220");
+	        Eletronico e1 = new Eletronico("1", "Televisao", "1000,00", "220");
 	        Eletronico e2 = new Eletronico("2", "Celular", "1000,00", "220");
 	        Eletronico e3 = new Eletronico("3", "Som", "250,00", "220");
 	        Eletronico e4 = new Eletronico("4", "Computador", "1500,00", "220");
